@@ -813,8 +813,9 @@ def main():
             try:
                 res = run_pipeline(llm, llm_eval, question.strip(), conn, verified_query_library, database_schema)
             except Exception as e:
-                st.error(f"Pipeline error: {e}")
-                st.stop()
+                   st.error(f"Pipeline error: {type(e).__name__}: {e}")
+                   st.exception(e)
+                   st.stop()
         st.session_state["last_result"] = res
         write_audit({
             "user_question": res["user_question"], "route": res["route"], "query_id": res["query_id"],
